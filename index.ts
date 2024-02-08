@@ -424,6 +424,15 @@ class AudioRecorderPlayer {
   setSubscriptionDuration = async (sec: number): Promise<string> => {
     return RNAudioRecorderPlayer.setSubscriptionDuration(sec);
   };
+
+  /**
+   * Used to set the playback speed of the audio
+   * @param speed the speed to set the playback to
+   * @returns 
+   */
+  setPlaybackSpeed = async (speed: number): Promise<string> => {
+    return RNAudioRecorderPlayer.setPlaybackSpeed(speed);
+  }
 }
 
 export default AudioRecorderPlayer;

@@ -26,6 +26,7 @@ class RNAudioRecorderPlayer: RCTEventEmitter, AVAudioRecorderDelegate {
     var audioPlayer: AVPlayer!
     var playTimer: Timer?
     var timeObserverToken: Any?
+    var playBackSpeed:Float = 1.0
 
     override static func requiresMainQueueSetup() -> Bool {
       return true
@@ -378,6 +379,7 @@ class RNAudioRecorderPlayer: RCTEventEmitter, AVAudioRecorderDelegate {
         addPeriodicTimeObserver()
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: audioPlayer.currentItem)
         audioPlayer.play()
+        audioPlayer.rate = playBackSpeed
         resolve(audioFileURL?.absoluteString)
     }
     
@@ -422,6 +424,11 @@ class RNAudioRecorderPlayer: RCTEventEmitter, AVAudioRecorderDelegate {
         resolve("Player paused!")
     }
 
+    @objc(setPlaybackSpeed:)
+    public func setPlaybackSpeed(_ speed: Float) -> Void {
+        playBackSpeed = speed
+    }
+
     @objc(resumePlayer:rejecter:)
     public func resumePlayer(
         resolve: @escaping RCTPromiseResolveBlock,
@@ -432,6 +439,7 @@ class RNAudioRecorderPlayer: RCTEventEmitter, AVAudioRecorderDelegate {
         }
 
         audioPlayer.play()
+        audioPlayer.rate = playBackSpeed
         resolve("Resumed!")
     }
 
